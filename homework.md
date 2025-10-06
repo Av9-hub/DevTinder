@@ -21,3 +21,9 @@
 -Use of regex in the routes /a/ , /.*fly$/
 -Read the query params in the routes
 -Reading the dynamic routes
+-Multiple route handler-play with the code
+-next()
+-next() functions and errors along with res.send()
+-app.use("/",rH1,[rH2],rH3)
+-What is middleware
+-How express JS handles req behind the seen

@@ -1,32 +1,31 @@
 const express=require('express');
 const app=express(); //initializes a new instance of express application
 
-app.use("/user",[(req,res,next)=>{
+app.use("/",[(req,res,next)=>{
     //Middlewares
-    console.log("route handler 1");
+    // res.send("hey");
     next();
-    console.log("middlware worked");
 }],
 (req,res,next)=>{
-    console.log("route handler 2");
-    // res.send("2nd respose");
     next();
+    console.log("2nd console");
 },
 (req,res,next)=>{
-    console.log("3rd route handler");
-    // res.send("3rd response");
     next();
 }
 );
 
 //must have a matching path to "/user" to work on next of middlewares
 //route handlers are those which actually sending response
+//route "/" giving error to client because not getting route handler
 
-app.use("/user/xyz",(req,res,next)=>{
+app.use("/user",(req,res,next)=>{
     //request handler
     console.log("separe console");
     res.send("separete respond");
 })
+
+
 
 app.listen(7777,()=>{
     console.log('server is running successfully on port 7777');
