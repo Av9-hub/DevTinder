@@ -1,21 +1,30 @@
 const express=require('express');
 const app=express(); //initializes a new instance of express application
 
-const {adminAuthCheck}=require('./middlewares/auth');
-const {userAuthCheck}=require("./middlewares/auth")
-
-app.use("/admin",adminAuthCheck);
-
-app.get("/admin/getData",(req,res,next)=>{
-        res.send("here is your data");
-});
-
-app.get("/admin/deleteData",(req,res,next)=>{
-        res.send("Deleted data");
+//ERROR HANDLING USING 2 METHODS 
+app.use("/",(err,req,res,next)=>{
+    if(err){
+        res.status(500).send("Something wrong1");
+    }
 })
 
-app.get("/user/getData",userAuthCheck,(req,res)=>{
-    res.send("Here is user data");
+//try catch
+app.use("/getUserdata",(req,res)=>{
+    try{
+        throw new Error("jhasjdsdc");
+        res.send("userData");
+    }
+    catch(err){
+        res.status(404).send("contact care");
+    }
+    
+})
+
+//using routes
+app.use("/",(err,req,res,next)=>{
+    if(err){
+        res.status(500).send("Something wrong2");
+    }
 })
 
 app.listen(7777,()=>{
