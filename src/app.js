@@ -1,21 +1,22 @@
 const express=require('express');
 const app=express(); //initializes a new instance of express application
 
-app.use((req,res)=>{
-    res.send('Hello there! This is my first express app.');
+app.post("/profile",(req,res)=>{
+    res.send("Profile saved");
 })
 
-app.use("/hlw",(req,res)=>{     //route
-    res.send(' hlw?');
-})
-app.use("/help",(req,res)=>{     //route
-    res.send(' whats your query?');
+app.get("/user",(req,res)=>{
+    console.log("hlw");
+    res.send("Here is your data");
 })
 
-// app.use("/main/help",(req,res)=>{
-//     res.send('c?');
-// })
+app.delete("/removeProfile",(req,res)=>{
+    res.send("Your profile is removed");
+})
+
 
 app.listen(7777,()=>{
     console.log('server is running successfully on port 7777');
 })
+
+
