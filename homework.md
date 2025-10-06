@@ -27,3 +27,6 @@
 -app.use("/",rH1,[rH2],rH3)
 -What is middleware
 -How express JS handles req behind the seen
+-Difference between app.use() and app.all()
+-Write a dummy auth middleware for admin
+-Write a dummy auth middleware for all users routes, except /user/login 
