@@ -1,34 +1,39 @@
 const express=require('express');
+const connectDB=require('./config/database');
 const app=express(); //initializes a new instance of express application
+const User=require('./models/user');
 
-//ERROR HANDLING USING 2 METHODS 
-app.use("/",(err,req,res,next)=>{
-    if(err){
-        res.status(500).send("Something wrong1");
-    }
-})
+app.post("/signUp",(req,res)=>{
+    //CREATING AN INSTANCE OF USER MODEL 
+    const user=new User({
+        firstName:"Om",
+        lastName:"Singh",
+        gmail:"om@gmail.com",
+        password:"Om@123",
+        age:21,
+    });
 
-//try catch
-app.use("/getUserdata",(req,res)=>{
+    //SAVING THE DATA TO THE DOCUMENTS
     try{
-        throw new Error("jhasjdsdc");
-        res.send("userData");
+        user.save();
+        res.send("Data saved successfully");
     }
     catch(err){
-        res.status(404).send("contact care");
-    }
-    
-})
-
-//using routes
-app.use("/",(err,req,res,next)=>{
-    if(err){
-        res.status(500).send("Something wrong2");
+        res.status(404).send("Problem in data saving"+err.message);
     }
 })
 
-app.listen(7777,()=>{
-    console.log('server is running successfully on port 7777');
-})
+
+connectDB()
+    .then(()=>{
+        console.log("Connected to DB");
+        app.listen(7777,()=>{
+        console.log('server is running successfully on port 7777');
+    })
+    })
+    .catch((err)=>{
+        console.error("Database cant be coonected");
+    })
+
 
 

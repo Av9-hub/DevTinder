@@ -30,3 +30,11 @@
 -Difference between app.use() and app.all()
 -Write a dummy auth middleware for admin
 -Write a dummy auth middleware for all users routes, except /user/login 
+
+-create a free cluster on mongodb official website (mongo atlas)
+-Install mongoose library
+-Connect your application to the database "<URL>/devTinder"
+-Call the connectDB function and connect to database before starting to the application on 7777
+-Create a userSchema and userModel
+-Push some documents using API calls from postman
+-error handling using try catch
