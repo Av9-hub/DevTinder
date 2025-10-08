@@ -60,6 +60,34 @@ app.get("/feed",async (req,res)=>{
     }
 })
 
+app.delete("/user",async (req,res)=>{
+    const userId=req.body.userId;
+    console.log(userId);
+    try{
+        // const user=await User.findByIdAndDelete(userId);
+
+        const user=await User.findOneAndDelete({_id:userId});
+        res.send("Data deleted successfully");
+    }
+    catch(err){
+        console.status(404).send("Something went wrong");
+    }
+})
+
+app.patch("/user",async (req,res)=>{
+    const userId=req.body.userId;
+    try{
+    const data=req.body;
+    // const user=await User.findOneAndUpdate({_id:userId},data);
+    const user=await User.findByIdAndUpdate(userId,data,{returnDocument:"before"});
+
+    console.log(user);
+    res.send("Data updated successfully");
+    }
+    catch(err){
+        res.status(404).send("Something went wrong");
+    }
+})
 
 connectDB()
     .then(()=>{
