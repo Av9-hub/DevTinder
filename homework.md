@@ -38,3 +38,7 @@
 -Create a userSchema and userModel
 -Push some documents using API calls from postman
 -error handling using try catch
+
+-JS object vs JSON
+-Add the express.json middleware to your app
+-Make your sign api dynamic to receive the data from end user

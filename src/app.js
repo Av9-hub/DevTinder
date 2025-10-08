@@ -3,19 +3,17 @@ const connectDB=require('./config/database');
 const app=express(); //initializes a new instance of express application
 const User=require('./models/user');
 
-app.post("/signUp",(req,res)=>{
-    //CREATING AN INSTANCE OF USER MODEL 
-    const user=new User({
-        firstName:"Om",
-        lastName:"Singh",
-        gmail:"om@gmail.com",
-        password:"Om@123",
-        age:21,
-    });
+app.use("/",express.json());
+
+app.post("/signUp",async (req,res)=>{
+
+    //console.log(req.body);
+    // CREATING AN INSTANCE OF USER MODEL 
+    const user=new User(req.body);
 
     //SAVING THE DATA TO THE DOCUMENTS
     try{
-        user.save();
+        await user.save();
         res.send("Data saved successfully");
     }
     catch(err){
