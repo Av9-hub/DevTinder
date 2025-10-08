@@ -42,3 +42,6 @@
 -JS object vs JSON
 -Add the express.json middleware to your app
 -Make your sign api dynamic to receive the data from end user
+-User.findOne({}) with duplicate email ids, which object returns
+-API Get user by email
+-API -feed API -Get /feed -get all users from database
