@@ -52,3 +52,10 @@
 -Explore the mongoose documentation for model methods
 -What are options in model. Find one and update method, explore more about it
 -API -update the user with email id
+
+-Explore schemaType options from the validation
+-add require,lowercase,trim,min,minlength
+-Add default
+-Create a custom validate function for gender
+-Improve DB schema -put all appropriate validations on each field in schema
+-Add time stamp to user schema

@@ -79,7 +79,9 @@ app.patch("/user",async (req,res)=>{
     try{
     const data=req.body;
     // const user=await User.findOneAndUpdate({_id:userId},data);
-    const user=await User.findByIdAndUpdate(userId,data,{returnDocument:"before"});
+    const user=await User.findByIdAndUpdate(userId,data,{
+        returnDocument:"before",
+        runValidators:true});
 
     console.log(user);
     res.send("Data updated successfully");
