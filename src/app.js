@@ -10,14 +10,36 @@ app.post("/signUp",async (req,res)=>{
     //console.log(req.body);
     // CREATING AN INSTANCE OF USER MODEL 
     const user=new User(req.body);
+    const ALLOWED_SAVE=[
+        "firstName",
+        "lastName",
+        "gmail",
+        "image",
+        "password",
+        "age",
+        "gender",
+        "about",
+        "skills",
+        "degree"
+    ];
 
     //SAVING THE DATA TO THE DOCUMENTS
     try{
+        const isAllowedSave=Object.keys(req.body).every((k)=>ALLOWED_SAVE.includes(k));
+
+        if(!isAllowedSave){
+        throw new Error("Wrong key! not allowed");
+        }
+
+        if(user.skills.length>=10){
+        throw new Error("Skill size must less then 10 allowed");
+        }
+
         await user.save();
         res.send("Data saved successfully");
     }
     catch(err){
-        res.status(404).send("Problem in data saving"+err.message);
+        res.status(404).send("Problem in data saving. "+err.message);
     }
 })
 
@@ -74,10 +96,30 @@ app.delete("/user",async (req,res)=>{
     }
 })
 
-app.patch("/user",async (req,res)=>{
-    const userId=req.body.userId;
-    try{
+app.patch("/user/:userId",async (req,res)=>{
+    const userId=req.params?.userId;
     const data=req.body;
+    
+    try{
+        const ALLOWED_UPDATES=[
+        "userId",
+        "image",
+        "password",
+        "age",
+        "gender",
+        "about",
+        "skills",
+        "degree"
+    ];
+
+    const isUpdateAllowed=Object.keys(data).every((k)=>ALLOWED_UPDATES.includes(k));
+    if(!isUpdateAllowed){
+        throw new Error("Update not allowed");
+    }
+    if(user.skills?.length>=10){
+        throw new Error("Skill size must less then 10 allowed");
+        }
+
     // const user=await User.findOneAndUpdate({_id:userId},data);
     const user=await User.findByIdAndUpdate(userId,data,{
         returnDocument:"before",
@@ -87,7 +129,7 @@ app.patch("/user",async (req,res)=>{
     res.send("Data updated successfully");
     }
     catch(err){
-        res.status(404).send("Something went wrong");
+        res.status(404).send("Something went wrong"+err.message);
     }
 })
 

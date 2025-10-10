@@ -58,4 +58,6 @@
 -Add default
 -Create a custom validate function for gender
 -Improve DB schema -put all appropriate validations on each field in schema
--Add time stamp to user schema
+-Add timestamps to user schema
+-Add API level validation on Patch request and SignUp post api
+-Data sanitizing -add API validation for each field
