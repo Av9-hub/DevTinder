@@ -61,3 +61,6 @@
 -Add timestamps to user schema
 -Add API level validation on Patch request and SignUp post api
 -Data sanitizing -add API validation for each field
+-Install validator
+-Explore validator Library and use validator function fro gmail, password and photoURL
+-NEVER TRUST req.body
