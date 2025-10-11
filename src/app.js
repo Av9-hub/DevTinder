@@ -4,6 +4,7 @@ const app=express(); //initializes a new instance of express application
 const User=require('./models/user');
 const { validateSignUpData } = require('./utils/validation');
 const bcrypt=require("bcrypt");
+const validator=require("validator")
 
 app.use(express.json());
 
@@ -30,8 +31,37 @@ app.post("/signUp",async (req,res)=>{
         res.send("Data saved successfully");
     }
     catch(err){
-        res.status(404).send("Problem in data saving. "+err.message);
+        res.status(404).send("ERROR! "+err.message);
     }
+})
+
+app.post("/login",async (req,res)=>{
+     const {gmail,password}=req.body;
+    try{
+            //VALIDATE GMAIL
+        if(!validator.isEmail(gmail)){
+            throw new Error("Enter a valid gmail.")
+        }
+
+        //Check Gmail in DB
+        const savedUser=await User.findOne({gmail:gmail});
+        if(!savedUser){
+            throw new Error("Gmail not registered. ");
+        }
+        else{
+            const isPasswordvalid=await bcrypt.compare(password,savedUser.password);
+            if(!isPasswordvalid){
+                throw new Error("Invalid Password. ");
+            }
+            else{
+                res.send("Login Successful ");
+            }
+        }
+        }
+    catch(err){
+        res.status(404).send("ERROR! "+err.message);
+    } 
+    
 })
 
 app.get("/user",async(req,res)=>{
