@@ -2,38 +2,29 @@ const express=require('express');
 const connectDB=require('./config/database');
 const app=express(); //initializes a new instance of express application
 const User=require('./models/user');
+const { validateSignUpData } = require('./utils/validation');
+const bcrypt=require("bcrypt");
 
 app.use(express.json());
 
 app.post("/signUp",async (req,res)=>{
-
-    //console.log(req.body);
-    // CREATING AN INSTANCE OF USER MODEL 
-    const user=new User(req.body);
-    const ALLOWED_SAVE=[
-        "firstName",
-        "lastName",
-        "gmail",
-        "image",
-        "password",
-        "age",
-        "gender",
-        "about",
-        "skills",
-        "degree"
-    ];
-
-    //SAVING THE DATA TO THE DOCUMENTS
     try{
-        const isAllowedSave=Object.keys(req.body).every((k)=>ALLOWED_SAVE.includes(k));
+        //validate data->CreateUser
+        validateSignUpData(req);
+        
+        //deStructuring
+        const {firstName,lastName,password,gmail}=req.body;
 
-        if(!isAllowedSave){
-        throw new Error("Wrong key! not allowed");
-        }
+        //BECRYPT PASSWORD
+        const bcryptPassword=await bcrypt.hash(password,10);
 
-        if(user.skills.length>=10){
-        throw new Error("Skill size must less then 10 allowed");
-        }
+        // CREATING AN INSTANCE OF USER MODEL   
+        console.log(bcryptPassword);
+
+        //instance of User model
+        const user=new User({
+            firstName,lastName,gmail,password:bcryptPassword,
+        })
 
         await user.save();
         res.send("Data saved successfully");

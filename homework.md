@@ -64,3 +64,7 @@
 -Install validator
 -Explore validator Library and use validator function fro gmail, password and photoURL
 -NEVER TRUST req.body
+
+-Validate data in SignUp API
+-Install bcrypt package
+-Create bcrypt password using bcrypt.hashand save the user is excrupted password
