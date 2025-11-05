@@ -5,8 +5,12 @@ const User=require('./models/user');
 const { validateSignUpData } = require('./utils/validation');
 const bcrypt=require("bcrypt");
 const validator=require("validator")
+const cookieParser=require("cookie-parser");
+const jwt=require("jsonwebtoken");
+
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.post("/signUp",async (req,res)=>{
     try{
@@ -49,11 +53,13 @@ app.post("/login",async (req,res)=>{
             throw new Error("Gmail not registered. ");
         }
         else{
-            const isPasswordvalid=await bcrypt.compare(password,savedUser.password);
-            if(!isPasswordvalid){
+            const isPasswordValid=await bcrypt.compare(password,savedUser.password);
+            if(!isPasswordValid){
                 throw new Error("Invalid Password. ");
             }
             else{
+                 const token=await jwt.sign({_id:savedUser._id},'DevTinder@123');
+                res.cookie("token",token);
                 res.send("Login Successful ");
             }
         }
@@ -62,6 +68,28 @@ app.post("/login",async (req,res)=>{
         res.status(404).send("ERROR! "+err.message);
     } 
     
+})
+
+app.get("/profile",async(req,res)=>{
+    const cookie=req.cookies;
+    try{
+        const {token}=cookie;
+        const  decodedMessage=jwt.verify(token,'DevTinder@123');
+        if(!decodedMessage){
+            throw new Error("Invalid Token");
+        }
+        console.log(decodedMessage);
+        const {_id}=decodedMessage;
+        const user=await User.findById(_id);
+        if(!user){
+            throw new Error("User not found");
+        }
+        console.log(token);
+        res.send(user);
+    }
+    catch(err){
+        res.status(404).send("ERROR "+err)
+    }
 })
 
 app.get("/user",async(req,res)=>{

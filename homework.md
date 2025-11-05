@@ -70,3 +70,10 @@
 -Create bcrypt password using bcrypt.hashand save the user is excrupted password
 -Create alogin API
 -Compare password throw error If gmail or password is invalid
+
+-install cookie-parser
+-just send a dummy cookie to the user
+-create GET /profile API to check user is getting back cookie with tokens
+-install json webtoken 
+-In login API, after email and password validation, create a jwt token and send it to user in cookies
+-read the cookie inside your profile API and find the logged in user
