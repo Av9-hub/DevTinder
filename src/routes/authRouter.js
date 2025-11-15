@@ -5,7 +5,7 @@ const validator=require("validator")
 const User=require('../models/user');
 const bcrypt=require("bcrypt");
 
-
+//file name not need to be same as router name
 
 authRouter.post("/signUp",async (req,res)=>{
     try{
@@ -59,6 +59,11 @@ authRouter.post("/login",async (req,res)=>{
     catch(err){
         res.status(404).send("ERROR! "+err.message);
     }     
+})
+
+authRouter.post("/logout",(req,res)=>{
+    res.cookie("token",null,{expires:new Date(Date.now())});
+    res.send("logout successfully..");
 })
 
 

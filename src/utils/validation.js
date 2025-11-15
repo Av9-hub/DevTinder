@@ -14,7 +14,14 @@ const validateSignUpData=(req)=>{
         throw new Error("Skill size must less then 10 allowed");
         }
 }
+const validateEditProfileData=(req)=>{
+
+    const allowedUpdate=["firstName","lastName","gmail","gender","age","image","skills","about","degree"];
+    const isAllowedField=Object.keys(req.body).every(field=>allowedUpdate.includes(field));
+    return isAllowedField;
+}
 
 module.exports={
     validateSignUpData,
+    validateEditProfileData
 }
