@@ -13,8 +13,8 @@
 ##Connection request router
 -post user/request/send/intrested/:userId
 -post user/request/send/ignored/:userId
--post user/request/review/:requestId
--post user/request/review/:requestId
+-post user/request/review/accepted/:requestId
+-post user/request/review/rejected/:requestId
 
 ##userRouter 
 -get/user/connections
