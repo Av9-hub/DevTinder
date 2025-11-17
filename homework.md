@@ -95,7 +95,7 @@
 -Make you validate in all data in every /POST /PATCH api 
 
 - Create Connnection Request Schema
- - Send Connection Request API
+- Send Connection Request API
  - Proper validation of Data
  - Think about ALL corner cases
  - $or query $and query in mongoose - https://www.mongodb.com/docs/manual/reference/operator/query-logical/
@@ -105,3 +105,5 @@
  - What is the advantages and disadvantage of creating?
  - Read this arcticle about compond indexes - https://www.mongodb.com/docs/manual/core/indexes/index-types/index-compound/
  - ALWAYS THINK ABOUT CORNER CASES 
+
+ -Write code with proper validations /POST//request/review/:status/:requestId

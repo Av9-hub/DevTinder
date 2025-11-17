@@ -5,7 +5,7 @@ const ConnectionRequest=require("../models/connectionRequest")
 const User=require("../models/user");
 
 
-requestRouter.get("/send/:status/:toUserId",userAuthCheck,async(req,res)=>{
+requestRouter.post("/request/send/:status/:toUserId",userAuthCheck,async(req,res)=>{
     try{
         const fromUserId=req.user._id;
         const toUserId=req.params.toUserId;
@@ -20,7 +20,7 @@ requestRouter.get("/send/:status/:toUserId",userAuthCheck,async(req,res)=>{
         const toUser=await User.findById(toUserId);
         if(!toUser){
             return res.status(400).json({message:"User not found."})
-        }
+        } 
 
         const existingConnectionRequest=await ConnectionRequest.findOne({
             $or:[
@@ -52,6 +52,37 @@ requestRouter.get("/send/:status/:toUserId",userAuthCheck,async(req,res)=>{
     }
     catch(err){
         res.status(400).send(err.message);
+    }
+})
+
+requestRouter.post("/request/review/:status/:requestId",userAuthCheck,async(req,res)=>{
+    try
+    {const {status,requestId}=req.params;
+    const loggedInUser=req.user;
+    const allowedStatus=["accepted","rejected"];
+    if(!allowedStatus.includes(status)){
+        return res.status(404).json({message:"Not Valid Status "+status})
+    }
+
+    const connectionRequest=await ConnectionRequest.findOne(
+        {   _id:requestId,
+            toUserId:loggedInUser._id,
+            status:"interested"
+        }
+    )
+    if(!connectionRequest){
+        return res.status(400).json({message:`Not valid connection request data..`})
+    }
+
+    connectionRequest.status=status;
+    const data=await connectionRequest.save();
+
+    res.json({
+        message:`Request status changed successfully.. `,
+        data
+    })}
+    catch(err){
+        res.status(400).send("ERROR! "+err.message);
     }
 })
 
