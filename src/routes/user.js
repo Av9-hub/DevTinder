@@ -65,6 +65,12 @@ userRouter.get("/feed",userAuthCheck,async (req,res)=>{
         //-Any type of status (interested to or from , ignored to or from, accepted to or from ,
         //  rejected to or from) to other user/by user
 
+        const page=parseInt(req.query.page)||1;
+        let limit=parseInt(req.query.limit)||10;
+        limit=limit>50?50:limit;
+
+        const skip=(page-1)*limit;
+
         const connectionRequests=await ConnectionRequest.find({
             $or:[
                 {fromUserId:loggedInUser._id},
@@ -82,9 +88,9 @@ userRouter.get("/feed",userAuthCheck,async (req,res)=>{
                 {_id:{$nin:[...hideFromUser]}},  //not in
                 {_id:{$ne:[loggedInUser._id]}}  //not equal
             ]
-        }).select(USER_BIO_STR);
+        }).select(USER_BIO_STR).skip(skip).limit(limit);
         
-        res.json({data});
+        res.json({data:data,count:data.length});
     }
     catch(err){
         res.status(404).json({message:err.message});
