@@ -11,13 +11,11 @@
 -patch /profile/password
 
 ##Connection request router
--post user/request/send/intrested/:userId
--post user/request/send/ignored/:userId
--post user/request/review/accepted/:requestId
--post user/request/review/rejected/:requestId
+-post user/request/send/:status/:userId     status-interested/ignored
+-post user/request/review/:status/:requestId  status-accepted/rejected
 
 ##userRouter 
--get/user/connections
--get/user/requests
--get/user/feed -Get the profiles of other users on platform
+-get/user/requests/receieved   //Get all the pending requests with interested status
+-get/user/connections   //Get all the connections with "accepted " status
+-get/user/feed          //Get the profiles of other users on platform
 

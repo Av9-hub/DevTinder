@@ -107,3 +107,10 @@
  - ALWAYS THINK ABOUT CORNER CASES 
 
  -Write code with proper validations /POST//request/review/:status/:requestId
+ -Thought process GET and POST
+ -Read about ref and populate https://mongoosejs.com/docs/populate.html
+ - Create GET /user/requests/received with all the checks
+ -Create GET /user/connections with all checks "Gives us all the conections loggedIn user have"
+
+-Logic for /get/feed api
+--Explore the $nin, $ne ,$and and other query operator
