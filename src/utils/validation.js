@@ -2,7 +2,7 @@ const validator=require("validator");
 const validateSignUpData=(req)=>{
     const {firstName,lastName,gmail,password,skills}=req.body;
     if(!firstName||!lastName){
-        throw new Error("Name is not valid");
+        throw new Error("Name can't be empty.");
     }
     else if(!validator.isEmail(gmail)){
         throw new Error("ERROR! Enter a valid gmail");
@@ -14,6 +14,7 @@ const validateSignUpData=(req)=>{
         throw new Error("Skill size must less then 10 allowed");
         }
 }
+
 const validateEditProfileData=(req)=>{
 
     const allowedUpdate=["firstName","lastName","gmail","gender","age","image","skills","about","degree"];

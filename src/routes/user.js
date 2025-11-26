@@ -90,7 +90,7 @@ userRouter.get("/feed",userAuthCheck,async (req,res)=>{
             ]
         }).select(USER_BIO_STR).skip(skip).limit(limit);
         
-        res.json({data:data,count:data.length});
+        res.json({data:data});
     }
     catch(err){
         res.status(404).json({message:err.message});

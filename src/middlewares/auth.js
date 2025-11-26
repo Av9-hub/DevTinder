@@ -4,7 +4,7 @@ const userAuthCheck=async (req,res,next)=>{
     try{
     const {token}=req.cookies;
     if(!token){
-        throw new Error("Invalid cookies..");
+        return res.status(401).send("Please Login");
     }
     const decodeData=jwt.verify(token,'DevTinder@123');
     const {_id}=decodeData;

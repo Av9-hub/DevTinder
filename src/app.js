@@ -7,6 +7,30 @@ const authRouter=require("./routes/authRouter")
 const profileRouter=require("./routes/profileRouter")
 const requestRouter=require("./routes/requestRouter");
 const userRouter = require('./routes/user');
+const cors=require("cors")
+
+
+// var dynamicCorsOptions = function(req, callback) {
+//   var corsOptions;
+//   if (req.path.startsWith('/')) {
+//     corsOptions = {
+//       origin: 'http://localhost:5173', // Allow only a specific origin
+//       credentials: true,            // Enable cookies and credentials
+//     };
+//   } else {
+//     corsOptions = { origin: '*' };   // Allow all origins for other routes
+//   }
+//   callback(null, corsOptions);
+// };
+
+// app.use(cors(dynamicCorsOptions));
+
+app.use(cors({
+    origin:'http://localhost:5173',
+    credentials:true
+}));
+
+
 
 app.use(express.json());
 app.use(cookieParser());

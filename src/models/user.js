@@ -5,7 +5,7 @@ const bcrypt=require('bcrypt');
 const userSchema= new mongoose.Schema({
     firstName:{
         type:String,
-        required:true,
+        required:[true,"fistName is required"],
         minLength:2,
         maxLength:50,
         validate(val){
@@ -26,7 +26,7 @@ const userSchema= new mongoose.Schema({
     },
     gmail:{
         type:String,
-        required:true,
+        required:[true,"gmail is required"],
         unique:true,
         trim:true,
         lowercase:true,
@@ -53,7 +53,8 @@ const userSchema= new mongoose.Schema({
         type:String,
         enum:{
             values:["male","female","others"],
-            message:`Not a valid value: {VALUE}`
+            message:`Not a valid value: {VALUE}`,
+            
         }
         // validate(val){
         //     if(!["male","female","others"].includes(val)){
@@ -64,7 +65,7 @@ const userSchema= new mongoose.Schema({
     },
     about:{
         type:String,
-        default:"This is default about user "
+        default:"This is default about user. "
     },
     skills:{
         type:[String],
@@ -81,7 +82,7 @@ const userSchema= new mongoose.Schema({
     },
     degree:{
         type:String,
-        enum:["Btech","Mca"],
+        
     }
 },
 {timestamps:true});

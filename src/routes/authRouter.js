@@ -19,15 +19,19 @@ authRouter.post("/signUp",async (req,res)=>{
         const bcryptPassword=await bcrypt.hash(password,10);
 
         // CREATING AN INSTANCE OF USER MODEL   
-        console.log(bcryptPassword);
+        
 
         //instance of User model
         const user=new User({
             firstName,lastName,gmail,password:bcryptPassword,
         })
 
-        await user.save();
-        res.send("Data saved successfully");
+        const savedUser=await user.save();
+        const token=await savedUser.JWTtoken();
+        res.cookie("token",token,{expires:new Date(Date.now()+24*3600000)});
+        res.json({message:"Data Saved Successfully",data:savedUser});
+        
+        
     }
     catch(err){
         res.status(404).send("ERROR! "+err.message);
@@ -52,8 +56,8 @@ authRouter.post("/login",async (req,res)=>{
                 throw new Error("Invalid Password. ");
             }
                 const token=await savedUser.JWTtoken();
-                res.cookie("token",token,{expires:new Date(Date.now()+24*3600000),httpOnly:true});
-                res.send("Login Successful ");
+                res.cookie("token",token,{expires:new Date(Date.now()+24*3600000)});
+                res.send(savedUser);
         
         }
     catch(err){

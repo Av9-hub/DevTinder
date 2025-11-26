@@ -56,8 +56,8 @@ requestRouter.post("/request/send/:status/:toUserId",userAuthCheck,async(req,res
 })
 
 requestRouter.post("/request/review/:status/:requestId",userAuthCheck,async(req,res)=>{
-    try
-    {const {status,requestId}=req.params;
+    try{
+    const {status,requestId}=req.params;
     const loggedInUser=req.user;
     const allowedStatus=["accepted","rejected"];
     if(!allowedStatus.includes(status)){
@@ -71,7 +71,7 @@ requestRouter.post("/request/review/:status/:requestId",userAuthCheck,async(req,
         }
     )
     if(!connectionRequest){
-        return res.status(400).json({message:`Not valid connection request data..`})
+        return res.status(400).json({message:`No connection request data..`})
     }
 
     connectionRequest.status=status;
