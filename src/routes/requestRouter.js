@@ -3,7 +3,7 @@ const requestRouter=express.Router();
 const {userAuthCheck}=require("../middlewares/auth")
 const ConnectionRequest=require("../models/connectionRequest")
 const User=require("../models/user");
-
+const sendEmail=require("../utils/sendEmail");
 
 requestRouter.post("/request/send/:status/:toUserId",userAuthCheck,async(req,res)=>{
     try{
@@ -15,7 +15,7 @@ requestRouter.post("/request/send/:status/:toUserId",userAuthCheck,async(req,res
         if(!allowedStatus.includes(status)){
             return res
                 .status(404)
-                .json({message:"invalida status type "+status})
+                .json({message:"invalid request "+status})
         }
         const toUser=await User.findById(toUserId);
         if(!toUser){
@@ -28,22 +28,26 @@ requestRouter.post("/request/send/:status/:toUserId",userAuthCheck,async(req,res
                 {fromUserId:toUserId,toUserId:fromUserId}
             ]
         }) 
-
+      
         if(existingConnectionRequest){   //&&status===(existingConnectionRequest.status
             return res.status(400).json({
                 message:`Connection already exist.. `
             })
         }
-
+   
         const connectionRequest=new ConnectionRequest({
             fromUserId,
             toUserId,
             status
         })
 
-        
         const data=await connectionRequest.save();
-
+        console.log(data);
+        const emailRes=await sendEmail.run(
+            "Friend request from"+req.user.firstName,
+            req.user.firstName+", "+status+ " to "+toUser.firstName
+        );
+        console.log(emailRes);
         res.json({
             message:
             req.user.firstName+", "+status+ " to "+toUser.firstName,

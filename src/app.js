@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express=require('express');
 const connectDB=require('./config/database');
 const app=express(); //initializes a new instance of express application
@@ -8,7 +9,7 @@ const profileRouter=require("./routes/profileRouter")
 const requestRouter=require("./routes/requestRouter");
 const userRouter = require('./routes/user');
 const cors=require("cors")
-
+const task=require("./utils/nodeCron")
 
 // var dynamicCorsOptions = function(req, callback) {
 //   var corsOptions;
@@ -24,7 +25,7 @@ const cors=require("cors")
 // };
 
 // app.use(cors(dynamicCorsOptions));
-
+task.start();
 app.use(cors({
     origin:'http://localhost:5173',
     credentials:true
@@ -43,7 +44,7 @@ app.use("/",userRouter);
 connectDB()
     .then(()=>{
         console.log("Connected to DB");
-        app.listen(7777,()=>{
+        app.listen(process.env.PORT,()=>{
         console.log('server is running successfully on port 7777');
     })
     })
