@@ -3,7 +3,7 @@ const {subDays,startOfDay, endOfDay} =require("date-fns");
 const ConnectionRequest=require("../models/connectionRequest")
 const sendEmail=require("../utils/sendEmail")
 
-const task=cron.schedule('0 47 11 * * *',async()=>{
+const task=cron.schedule('0 8 * * *',async()=>{
     try{
          const today=new Date();
         const yesterday=subDays(today,1);

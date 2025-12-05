@@ -4,6 +4,7 @@ const connectDB=require('./config/database');
 const app=express(); //initializes a new instance of express application
 const cookieParser=require("cookie-parser");
 
+const paymentRouter=require('./routes/payment')
 const authRouter=require("./routes/authRouter")
 const profileRouter=require("./routes/profileRouter")
 const requestRouter=require("./routes/requestRouter");
@@ -40,6 +41,7 @@ app.use('/',authRouter);
 app.use('/',profileRouter);
 app.use('/',requestRouter);
 app.use("/",userRouter);
+app.use("/",paymentRouter)
 
 connectDB()
     .then(()=>{
