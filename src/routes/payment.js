@@ -44,12 +44,12 @@ paymentRouter.post("/payment/create",userAuthCheck ,async(req,res)=>{
 paymentRouter.post("/payment/webhook",async(req,res)=>{
     try{
     console.log("Webhook called");
-    const webhookSignature=req.get(X-Razorpay-Signature);
+    const webhookSignature=req.get("X-Razorpay-Signature");
     console.log("webhookSignature",webhookSignature);
     const isWebhookSignValid=validateWebhookSignature(JSON.stringify(req.body), webhookSignature, process.env.RAZORPAY_WEBHOOK_SECRET);
     
     if(!isWebhookSignValid){
-        res.status(400).json({msg: "Webhook sign is valid "});
+        return res.status(400).json({msg: "Webhook sign is not valid "});
     }
     const paymentDetail=req.body.payload.payment.entity;
     const payment=await Payment.findOne({orderId:paymentDetail.order_id});
