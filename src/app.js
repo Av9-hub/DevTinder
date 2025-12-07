@@ -11,6 +11,10 @@ const requestRouter=require("./routes/requestRouter");
 const userRouter = require('./routes/user');
 const cors=require("cors")
 const task=require("./utils/nodeCron")
+const http= require("http");
+const initializeSocket=require("./utils/socket");
+const chatRouter = require("./routes/chat");
+
 
 // var dynamicCorsOptions = function(req, callback) {
 //   var corsOptions;
@@ -42,11 +46,15 @@ app.use('/',profileRouter);
 app.use('/',requestRouter);
 app.use("/",userRouter);
 app.use("/",paymentRouter)
+app.use("/",chatRouter);
+
+const server=http.createServer(app);
+initializeSocket(server);
 
 connectDB()
     .then(()=>{
         console.log("Connected to DB");
-        app.listen(process.env.PORT,()=>{
+        server.listen(process.env.PORT,()=>{
         console.log('server is running successfully on port 7777');
     })
     })
