@@ -38,7 +38,7 @@ const userSchema= new mongoose.Schema({
     },
     password:{
         type:String,
-        required:true,
+        
         validate(val){
             if(!validator.isStrongPassword(val)){
                 throw new Error(" Enter a strong password minLength:8. Contains alphaNumeric and symobols. ");
@@ -90,6 +90,9 @@ const userSchema= new mongoose.Schema({
     },
     membershipType:{
         type:String,
+    },
+    googleId:{
+        type:String,
     }
 
 },
@@ -97,7 +100,7 @@ const userSchema= new mongoose.Schema({
 
 userSchema.methods.JWTtoken=async function (){
     const user=this;
-    const token=await jwt.sign({_id:user._id},'DevTinder@123',{expiresIn: '7d'});
+    const token=await jwt.sign({_id:user._id},process.env.JWT_SECRET,{expiresIn: '7d'});
     return token;
 }
 

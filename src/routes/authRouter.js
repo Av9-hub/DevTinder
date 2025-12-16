@@ -4,6 +4,7 @@ const { validateSignUpData } = require('../utils/validation');
 const validator=require("validator")
 const User=require('../models/user');
 const bcrypt=require("bcrypt");
+const googleAuth=require("../utils/googleAuth")
 
 //file name not need to be same as router name
 
@@ -69,6 +70,8 @@ authRouter.post("/logout",(req,res)=>{
     res.cookie("token",null,{expires:new Date(Date.now())});
     res.send("logout successfully..");
 })
+
+authRouter.post("/auth/google",googleAuth);
 
 
 

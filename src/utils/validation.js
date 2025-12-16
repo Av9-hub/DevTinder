@@ -8,7 +8,7 @@ const validateSignUpData=(req)=>{
         throw new Error("ERROR! Enter a valid gmail");
     }
     else if(!validator.isStrongPassword(password)){
-        throw new Error("ERROR! Enter a strong password. ");
+        throw new Error("Password must contain A-Z,a-z,0-9,@-_");
     }
     else if(skills?.length>=10){
         throw new Error("Skill size must less then 10 allowed");
